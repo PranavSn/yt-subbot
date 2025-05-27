@@ -23,7 +23,7 @@ class subDict:
         except:
             print("file not found; creating file")
         if cid not in subDict_t.keys():
-            subDict_t[cid] = {}
+            subDict_t[cid] = {sid:[uid]}
         elif sid not in subDict_t[cid]:
             subDict_t[cid][sid] = [uid]
         else:
@@ -37,12 +37,14 @@ class subDict:
             with open(self.filepath, 'rb') as subfile:
                 subDict_t=load(subfile)
         except:
-            print("subscription file not initialized")
-            return False
+            return "ERROR: subscription file not initialized"
+
         try:
             subDict_t[cid][sid].remove(uid)
         except:
-            return False
+            return "User not subscribed to given channel"
+        if not len(subDict_t[cid][sid]):
+            del subDict_t[cid][sid]
         return True
                 
 
